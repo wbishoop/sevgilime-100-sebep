@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seni Sevmemin 100 Sebebi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1rem 3rem;
+      position: relative;
+      overflow-x: hidden;
+      transition: background-color 0.6s ease;
+    }
+
+    #petalsContainer { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+
+    .petal-fall {
+      position: absolute;
+      top: -40px;
+      pointer-events: none;
+      animation: fall linear forwards;
+      opacity: 0;
+    }
+
+    @keyframes fall {
+      0%   { transform: translateY(0) rotate(0deg) translateX(0px); opacity: 0; }
+      8%   { opacity: 0.75; }
+      88%  { opacity: 0.45; }
+      100% { transform: translateY(110vh) rotate(400deg) translateX(25px); opacity: 0; }
+    }
+
+    .greeting-block {
+      text-align: center;
+      margin-bottom: 1.75rem;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: fadeDown 0.8s ease forwards;
+      animation-delay: 0.35s;
+      position: relative; z-index: 1;
+    }
+
+    @keyframes fadeDown {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .greeting-time {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 400;
+      margin-bottom: 0.4rem;
+    }
+
+    .greeting-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .day-label {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 400;
+      margin-bottom: 0.6rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards;
+      animation-delay: 0.75s;
+      position: relative; z-index: 1;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      border-radius: 28px;
+      padding: 2.75rem 2.75rem 2.25rem;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      margin-bottom: 1.75rem;
+      border: 0.5px solid transparent;
+      opacity: 0;
+      transform: translateY(36px);
+      animation: riseUp 0.95s cubic-bezier(0.22,1,0.36,1) forwards;
+      animation-delay: 0.9s;
+      z-index: 1;
+    }
+
+    @keyframes riseUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .corner-petal { position: absolute; font-size: 19px; opacity: 0.28; pointer-events: none; }
+    .cp-1 { top: 16px; left: 20px; transform: rotate(-22deg); }
+    .cp-2 { top: 16px; right: 20px; transform: rotate(22deg); }
+    .cp-3 { bottom: 16px; left: 20px; transform: rotate(14deg); }
+    .cp-4 { bottom: 16px; right: 20px; transform: rotate(-14deg); }
+
+    .reason-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 54px;
+      font-weight: 400;
+      line-height: 1;
+      margin-bottom: 0.55rem;
+    }
+
+    .reason-label {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 1.1rem;
+    }
+
+    .reason-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 21px;
+      font-weight: 400;
+      line-height: 1.6;
+      font-style: italic;
+      min-height: 4em;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.05em;
+      vertical-align: text-bottom;
+      margin-left: 2px;
+      animation: blink 0.85s step-end infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .divider {
+      width: 36px;
+      height: 1px;
+      margin: 1.3rem auto 0.75rem;
+    }
+
+    .date-text {
+      font-size: 12px;
+      font-style: italic;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.45rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+      animation-delay: 2.9s;
+    }
+
+    .anniversary-text {
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      font-style: italic;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+      animation-delay: 3.05s;
+    }
+
+    .dots-wrap {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.7s ease forwards;
+      animation-delay: 3.2s;
+      position: relative; z-index: 1;
+      text-align: center;
+    }
+
+    .dots-row {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 390px;
+      margin: 0 auto;
+    }
+
+    .dot { width: 7px; height: 7px; border-radius: 50%; }
+    .dot.today { transform: scale(1.45); }
+
+    .progress-label {
+      font-size: 11px;
+      margin-top: 0.8rem;
+      letter-spacing: 0.08em;
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 2.25rem 1.75rem 2rem; }
+      .greeting-name { font-size: 26px; }
+      .reason-num { font-size: 46px; }
+      .reason-text { font-size: 19px; }
+    }
+  </style>
+</head>
+<body id="body">
+  <div id="petalsContainer"></div>
+
+  <div class="greeting-block">
+    <p class="greeting-time" id="greetingTime"></p>
+    <p class="greeting-name" id="greetingName"></p>
+  </div>
+
+  <p class="day-label" id="dayLabel"></p>
+
+  <div class="card" id="card">
+    <span class="corner-petal cp-1" id="cp1"></span>
+    <span class="corner-petal cp-2" id="cp2"></span>
+    <span class="corner-petal cp-3" id="cp3"></span>
+    <span class="corner-petal cp-4" id="cp4"></span>
+
+    <div class="reason-num" id="reasonNum"></div>
+    <div class="reason-label" id="reasonLabel">sebebi</div>
+    <div class="reason-text" id="reasonText"><span class="cursor" id="cursor"></span></div>
+    <div class="divider" id="divider"></div>
+    <p class="date-text" id="dateText"></p>
+    <p class="anniversary-text" id="anniversaryText"></p>
+  </div>
+
+  <div class="dots-wrap">
+    <div class="dots-row" id="dotsRow"></div>
+    <p class="progress-label" id="progressLabel"></p>
+  </div>
+
+  <script>
+    /* ================================================================
+       💌 SEBEPLER — 100 tanesini buraya yaz, her biri bir gün
+    ================================================================ */
+    const reasons = [
+      "Güldüğünde tüm dünya duraksıyo gibi hissediyorum :)",
+      "Seninle sessiz kalmak bile çok huzur verici",
+      "Sen yanımdayken her saniye daha değerli",
+      "Küçük şeylerle mutlu olman <3<3",
+      "Sesinin tonu be gülüm. Duyunca her şeyi unutuyorum yemin ederim",
+      "Sabah uyanır uyanmaz aklıma gelen ilk ve tek şey olman",
+      "Bana güvenmen",
+      "Ruh eşim olmaann :). Her şeyi aynı anda düşünmemiz çok özel",
+      "Fotoğraflarına her baktığımda kalbimin küt küt atması (ve bazen de kedi gifi...)",
+      "Benimle gurur duyman. Ne kadar hoşuma gittiğini bilemezsin",
+      "Bakışlarındaki o sıcaklık",
+      "Benimle çocuk gibi çocuklaşabilmen, beraber sonuna kadar saçmalayıp boş yapabilmemiz",
+      "Dünden farklı olarak, gerektiğinde ciddi konuşabiliyo olmamız. Bu dengeyi çok hoşuma gidiyo",
+      "Uykulu sesinle konuşmanın verdiği o inanılmaz tatlılık",
+      "Gelecekteki hayallerimizi beraber kurmamız",
+      "Sadece varlığın bile yeterli",
+      "Sen yanımdayken çok daha fazla gülmem",
+      "Bana düşkünlüğün :)",
+      "Beni kıskanman",
+      "Birlikte geçirdiğimiz sıradan anların bile özel olması",
+      "Kalbindeki o iyilik, masumiyet",
+      "Tenin...",
+      "Kendi ellerinle bana bişeyler yapman. Kurban olurum lan sana",
+      "Bir şeyi severken gözlerinin parlaması. Dünyanın en güzel gözleri seninkiler",
+      "Fiziğin :) Sana neden bu kadar çok yükseliyorum sanıyosun...",
+      "Elini tuttuğumda, dudağını öptüğümde ve sımsıkı sarıldığımda hissettiklerim.",
+      "Çok düşünceli olman",
+      "Seninle paylaştığım kahkahalar",
+      "Sık sık attığın anlıklar, fotoğraflar ve postlar. Hepsi çok hoşuma gidiyo",
+      "Yanlış yaptığımda nazikçe söylemen",
+      "Bana güç vermen",
+      "Güzel şarkıların seni bana hatırlatması",
+      "Seninle zamanın çok hızlı geçmesi",
+      "Bana sürekli bulaşıp darlaman :)",
+      "Reels atman dhafhsasa",
+      "Saçların",
+      "Gözlerinde gördüğüm o huzur",
+      "Yanımda olmak istemen",
+      "Sevdiklerini bu kadar güçlü sevmen",
+      "Attığın ses kayıtlarını defalarca sarıp sarıp dinlemem",
+      "Aklımın bir köşesinde her zaman sen varsın",
+      "Bana inanman",
+      "Kokun... gül kokulum benim",
+      "Seninle tartışmanın bile güzel olması",
+      "Planlarımda artık hep sen varsın. Hayallerimdeki yerinin büyüklüğü",
+      "İçtenliğin, samimiyetin",
+      "Nasılsın diye sorarken gerçekten merak etmen",
+      "Evim gibi hissettirmen :)",
+      "Sabırla dinlemen",
+      "Dokunuşunun hafızama kazınmış olması",
+      "Beni aşka inandırman",
+      "Birbirimizin cümlelerini tamamlamamız, sanki tek bir kalbimiz varmış gibi",
+      "Bana sarıldığında dünyadaki tüm dertlerin ve stresin uçup gitmesi",
+      "Geleceğe dair kurduğumuz o ev hayalleri, tatlı detaylar...",
+      "Sadece sesini duyarak berbat bir günümü bir saniyede güzelleştirebilmen",
+      "Benim başarılarımla mutlu olman",
+      "Zarafetin",
+      "Trip atarken bile aradaki o sevgiyi ve şefkati azaltmaman",
+      "Kimseye anlatamadığım şeyleri sana hiç çekinmeden anlatabilmem. Her zaman anlatmasam da çekindiğimden değil :)",
+      "O güzel gülüşünün altındaki o çocuksu, saf neşe",
+      "Makyajını bozmama izin vermen (bazen her yerini öperek tamamen bozsam da)",
+      "Karakterin ve tatlılığınla beni kendine her gün yeniden hayran bırakman",
+      "Gece geç saatlerde yaptığımız o derin, uykulu ama çok hisli konuşmalar",
+      "Beni her halimle, en çekilmez ve huysuz anımda bile çekebilmen :)",
+      "Yüzünün her bir hattına, burnunun ucuna kadar aşık olmam",
+      "Biz fikrinin ve senin yanımda olmanın bana verdiği o inanılmaz güven duygusu",
+      "Sıradan, sıkıcı bir günü bile bir anda cennete çevirebilen o muazzam enerjin",
+      "Kalbinin o eşsiz temizliğinin resmen yüzüne, gözlerine vurmuş olması",
+      "Sadece bana özel olduğunu bildiğim o derin bakışın",
+      "Bana ahmedi demen",
+      "Hayatımın en güzel, en doğru dönüm noktası olman",
+      "Beraber saatlerce vakit geçirmek istememiz",
+      "Beni herkesten iyi tanıman, ne hissettiğimi daha ben söylemeden gözümden anlaman",
+      "Kokunun bazen kıyafetlerime sinmesi ve gün boyu benimle kalması",
+      "İlişkimizi ve hayatımızı güzelleştirmek için harcadığın o güzel çaba",
+      "En sevdiğim şeyleri, sevmediğim detayları benim için unutmaman ve hep önemsemen",
+      "Bana her sevgilim deyişinde içimde bir şeylerin erimesi",
+      "Ellerin... eriyorum kızım anlasana",
+      "Bana durup dururken attığın içten ve sevgi dolu mesajlar",
+      "Aramızdaki mesafelerin bile sana olan aşkımı azaltamaması, aksine özlemle büyütmesi",
+      "İleride seninle aynı evde yaşlanma fikrinin içimi sıcacık yapması",
+      "Benim tişörtümü giydiğinde benden çok daha iyi taşıman ve çok tatlı olman :)" ,
+      "Göz kırpışın, gülerken yanağında oluşan o minik çizgi",
+      "Benim dertlerimi ve sıkıntılarımı kendi dertlerin gibi sahiplenip üzülmen",
+      "Seninleyken zamanın nasıl akıp gittiğini asla ve asla anlayamamam",
+      "Hayatımın başrolü olman, geleceğe dair kurduğum her güzel şeyin merkezinde yer alman",
+      "Uyumadan önce düşündüğüm son, uyanınca özlediğim ilk insan olman",
+      "Benim için ettiğin o güzel dualar, içten iyi dileklerin",
+      "Boynundaki o minik ben, her bir detayına ayrı ayrı aşığım",
+      "Bana kardan adam yapsak senleee söylemen :)",
+      "Aşık fare sticker'ını kullanman",
+      "Her vedadan sonra arkandan bakarken içimi kaplayan o derin ve yoğun özlem. Her buluşma sonu gözlerim doluyor",
+      "Kalbimin tek, gerçek ve sonsuz sahibi olman",
+      "Kusurlarımla, hatalarımla bile beni dünyanın en özel insanı gibi hissettirmen",
+      "Biliyorum 100 sebep çok az. Sonsuz kez seviyorum seni, sonsuz sebebim var. Her şeyine çok aşığım bitanem. İyi ki benimsin. Liste bitti ama sana olan aşkım bitmeyecek :)",
+    ];
+
+    /* ================================================================
+       💑 HİTAPLAR — istediğin gibi değiştir
+    ================================================================ */
+    const terms = ["aşkım", "biricik'im", "güzelim", "canım", "tatlım", "sevgilim", "hayatım"];
+
+    /* ================================================================
+       🎨 TEMALAR — 3 günde bir değişir
+    ================================================================ */
+    const themes = [
+      { wrapperBg:"#fff6f9", cardBg:"#fff0f5", cardBorder:"#f0c4d8", numColor:"#e8a0bf", textColor:"#7a3a5c", muted:"#c9a0b4", dotDone:"#d4537e", dotToday:"#7a3a5c", dotEmpty:"#f0c4d8", cursorColor:"#e8a0bf", labelColor:"#d4a0b8", petals:["🌸","🌸","🌷","🌷"], fallEmoji:["🌸","🌷","🌸","🌷"] },
+      { wrapperBg:"#f5f3ff", cardBg:"#eeebff", cardBorder:"#d0c8f5", numColor:"#a99de8", textColor:"#4a3a8a", muted:"#9b8ecb", dotDone:"#7f77dd", dotToday:"#4a3a8a", dotEmpty:"#d0c8f5", cursorColor:"#a99de8", labelColor:"#9b8ecb", petals:["✨","💜","🌿","✨"], fallEmoji:["💜","✨","🌿","💫"] },
+      { wrapperBg:"#fff8f5", cardBg:"#fff2eb", cardBorder:"#f5c4b0", numColor:"#f0a080", textColor:"#7a3a20", muted:"#c9956a", dotDone:"#d85a30", dotToday:"#7a3a20", dotEmpty:"#f5c4b0", cursorColor:"#f0a080", labelColor:"#c9956a", petals:["🌼","🍑","🌼","🍑"], fallEmoji:["🌼","🍑","🌸","🌼"] },
+      { wrapperBg:"#fdf4f8", cardBg:"#fce8f2", cardBorder:"#ebb8d5", numColor:"#d47fa8", textColor:"#6b2d50", muted:"#bf8aaa", dotDone:"#b85080", dotToday:"#6b2d50", dotEmpty:"#ebb8d5", cursorColor:"#d47fa8", labelColor:"#bf8aaa", petals:["🌺","💕","🌺","💕"], fallEmoji:["🌺","💕","🌸","🌺"] },
+      { wrapperBg:"#f4fbf8", cardBg:"#edf9f4", cardBorder:"#a8dfc8", numColor:"#7dcaaa", textColor:"#2a6a50", muted:"#6aaa90", dotDone:"#1d9e75", dotToday:"#2a6a50", dotEmpty:"#a8dfc8", cursorColor:"#7dcaaa", labelColor:"#6aaa90", petals:["🍃","🌸","🍃","🌸"], fallEmoji:["🍃","🌸","🌿","🍃"] }
+    ];
+
+    /* ── Tarih hesaplamaları ── */
+    const ANNIVERSARY = new Date('2024-01-21'); // 💑 Yıldönümü tarihi (Alt metin için)
+    const START_DATE  = new Date('2026-05-29'); // 🚀 Sayacın 1. günden başlayacağı tarih
+
+    // Gün farkını UTC üzerinden hesapla — saat dilimi kayması olmasın
+    function toUTCDate(d) {
+      return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
+    }
+
+    const today     = new Date();
+    
+    // YENİ: Sebepler ve temalar için gün farkını START_DATE üzerinden hesaplıyoruz
+    const diffDays  = Math.floor((toUTCDate(today) - toUTCDate(START_DATE)) / 864e5);
+    const safeDiff  = Math.max(0, diffDays); // Başlamadan önce açılırsa 0 (Yani 1. Sebep)
+    const index     = safeDiff % 100;
+    const dayNumber = index + 1;
+    const theme     = themes[safeDiff % themes.length];
+
+    /* ── Yıldönümü metni: X yıl Y ay Z gün ── */
+    function anniversaryDuration(from, to) {
+      let years  = to.getFullYear() - from.getFullYear();
+      let months = to.getMonth()    - from.getMonth();
+      let days   = to.getDate()     - from.getDate();
+
+      if (days < 0) {
+        months--;
+        const prevMonth = new Date(to.getFullYear(), to.getMonth(), 0);
+        days += prevMonth.getDate();
+      }
+      if (months < 0) { years--; months += 12; }
+
+      const parts = [];
+      if (years  > 0) parts.push(years  + ' yıl');
+      if (months > 0) parts.push(months + ' ay');
+      if (days   > 0) parts.push(days   + ' gün');
+      if (parts.length === 0) parts.push('bugün başladı 🥂');
+      return parts.join(' ');
+    }
+
+    /* ── Tema uygula ── */
+    document.body.style.backgroundColor = theme.wrapperBg;
+    const card = document.getElementById('card');
+    card.style.background  = theme.cardBg;
+    card.style.borderColor = theme.cardBorder;
+    ['cp1','cp2','cp3','cp4'].forEach((id,i) => {
+      document.getElementById(id).textContent = theme.petals[i];
+    });
+
+    /* ── Selamlama ── */
+    const hour = today.getHours();
+    const timeGreeting = hour >= 5 && hour < 12 ? "Günaydın"
+                       : hour < 18              ? "Merabaaa"
+                       :                          "İyi geceler";
+    const term = terms[safeDiff % terms.length];
+
+    const gtEl = document.getElementById('greetingTime');
+    gtEl.style.color   = theme.muted;
+    gtEl.textContent   = timeGreeting + ",";
+
+    const gnEl = document.getElementById('greetingName');
+    gnEl.style.color   = theme.textColor;
+    gnEl.textContent   = term;
+
+    /* ── Gün etiketi ── */
+    const dlEl = document.getElementById('dayLabel');
+    dlEl.style.color   = theme.muted;
+    dlEl.textContent   = "seni sevmemin";
+
+    /* ── Sebep numarası ── */
+    document.getElementById('reasonNum').style.color  = theme.numColor;
+    document.getElementById('reasonNum').textContent  = dayNumber + ".";
+    document.getElementById('reasonLabel').style.color = theme.labelColor;
+
+    /* ── Ayırıcı ── */
+    document.getElementById('divider').style.background = theme.cardBorder;
+
+    /* ── Tarih ── */
+    const monthNames = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran',
+                        'Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+    const dtEl = document.getElementById('dateText');
+    dtEl.style.color   = theme.muted;
+    dtEl.textContent   = today.getDate() + ' ' + monthNames[today.getMonth()] + ' ' + today.getFullYear();
+
+    /* ── Yıldönümü süresi ── */
+    const annEl = document.getElementById('anniversaryText');
+    annEl.style.color  = theme.muted;
+    annEl.textContent  = '🤍 ' + anniversaryDuration(ANNIVERSARY, today) + 'dür benimsin';
+
+    /* ── Noktalar ── */
+    const dotsRow = document.getElementById('dotsRow');
+    for (let i = 0; i < 100; i++) {
+      const dot = document.createElement('div');
+      dot.className    = 'dot' + (i === index ? ' today' : '');
+      dot.style.background = i < index  ? theme.dotDone
+                           : i === index ? theme.dotToday
+                           :               theme.dotEmpty;
+      dotsRow.appendChild(dot);
+    }
+    const plEl = document.getElementById('progressLabel');
+    plEl.style.color   = theme.muted;
+    plEl.textContent   = dayNumber + ' / 100 sebep';
+
+    /* ── Typewriter ── */
+    const reasonEl = document.getElementById('reasonText');
+    const cursor   = document.getElementById('cursor');
+    reasonEl.style.color    = theme.textColor;
+    cursor.style.background = theme.cursorColor;
+
+    const fullText = reasons[index % reasons.length];
+    let charIndex  = 0;
+
+    function typeWriter() {
+      if (charIndex <= fullText.length) {
+        reasonEl.textContent = fullText.slice(0, charIndex);
+        reasonEl.appendChild(cursor);
+        charIndex++;
+        setTimeout(typeWriter, 40);
+      } else {
+        setTimeout(() => cursor.style.display = 'none', 1800);
+      }
+    }
+    setTimeout(typeWriter, 1450);
+
+    /* ── Düşen yapraklar ── */
+    function spawnPetal() {
+      const el       = document.createElement('div');
+      el.className   = 'petal-fall';
+      el.textContent = theme.fallEmoji[Math.floor(Math.random() * theme.fallEmoji.length)];
+      el.style.left  = Math.random() * 100 + 'vw';
+      el.style.fontSize = (13 + Math.random() * 9) + 'px';
+      const dur      = 4.5 + Math.random() * 4;
+      el.style.animationDuration = dur + 's';
+      el.style.animationDelay   = (Math.random() * 1.5) + 's';
+      document.getElementById('petalsContainer').appendChild(el);
+      setTimeout(() => el.remove(), (dur + 3) * 1000);
+    }
+
+    let burst = 0;
+    const burstTimer = setInterval(() => {
+      spawnPetal();
+      if (++burst >= 16) clearInterval(burstTimer);
+    }, 180);
+
+    setInterval(spawnPetal, 3000);
+  </script>
+</body>
+</html>
